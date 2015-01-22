@@ -127,7 +127,7 @@
     <None Include="fonts\glyphicons-halflings-regular.ttf" />
     <None Include="fonts\glyphicons-halflings-regular.svg" />
     <None Include="fonts\glyphicons-halflings-regular.eot" />
-    <Compile Include="Controllers\CarsController.fs" />
+    <Compile Include="Controllers\UVTLController.fs" />
     <Content Include="Web.config" />
     <Content Include="Global.asax" />
     <Compile Include="Global.asax.fs">
@@ -136,7 +136,6 @@
     <Content Include="Index.html" />
     <Content Include="packages.config" />
     <Content Include="readme.txt" />
-    <Compile Include="TableOperationsModule.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="DigitallyCreated.FSharp.Azure">
