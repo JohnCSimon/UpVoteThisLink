@@ -1,11 +1,13 @@
 [package]
-name = "UpVoteThisLink"
+name = "up_vote_this_link"
 version = "0.1.0"
 authors = ["john"]
-edition = "2018"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 diesel = { version = "1.4.5", features = ["postgres"] }
 dotenv = "0.15.0"
+actix-web = "4"
+url = "1.7.2"
