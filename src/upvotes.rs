@@ -63,7 +63,7 @@ mod tests {
         let point = VoteEvent {
             url_id: "https://www.rust-lang.org/".to_string(),
             user_id: "12345".to_string(),
-            event: Event::down_vote,
+            event: Event::DownVote,
         };
 
         let serialized = serde_json::to_string(&point).unwrap();
