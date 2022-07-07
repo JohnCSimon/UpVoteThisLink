@@ -25,7 +25,7 @@ pub fn hash(myint: u32, mystr: &str) -> String {
 }
 
 // index into string and return the character at the index
-pub fn indexIntoStr(mystr: &str, index: usize) -> char {
+pub fn index_into_str(mystr: &str, index: usize) -> char {
     mystr.chars().nth(index).unwrap() // solid kak O(n) way to do this
                                       // copilot suggested this line - I say it's worth the $100/yr
                                       // for this alone
