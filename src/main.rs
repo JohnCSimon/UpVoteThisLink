@@ -1,7 +1,7 @@
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 // use serde::Deserialize;
 // use upvotes::VoteEvent;
-
+pub mod sqlstuff;
 pub mod upvotes;
 pub mod urlparser;
 #[actix_web::main]
