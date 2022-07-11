@@ -18,7 +18,7 @@ pub fn hash(myint: u32, mystr: &str) -> String {
     while _quotient != 0 {
         _remainder = _quotient % length;
         _quotient = _quotient / length;
-        let i = indexIntoStr(mystr, _remainder.try_into().unwrap());
+        let i = index_into_str(mystr, _remainder.try_into().unwrap());
         _hash.insert(0, i);
     }
     _hash
@@ -42,7 +42,7 @@ mod tests {
         let x = "0123456789ABCDEF";
         let y: u32 = 35631;
         let result = hash(y, x);
-        assert_eq!(result, "8yZ");
+        assert_eq!(result, "8B2F");
     }
 
     #[test]
@@ -50,7 +50,7 @@ mod tests {
         let x = "0123456789ABCDEFGHIJKLMNOPQURSTUVWXYZabcdefghijklmnopqrstuvwxyz._~()'!*:@,;";
         let y: u32 = 35631;
         let result = hash(y, x);
-        assert_eq!(result, "8B2F");
+        assert_eq!(result, "6P6");
     }
 
     #[test]
