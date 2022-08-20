@@ -1,5 +1,5 @@
-pub use serde::Deserialize;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
+
 
 #[derive(Deserialize, Serialize, Debug)]
 pub struct VoteEvent {
@@ -53,6 +53,7 @@ pub enum Event {
 
 #[cfg(test)]
 mod tests {
+
     use crate::urlparser::parse_url_local;
 
     // Note this useful idiom: importing names from outer (for mod tests) scope.
@@ -85,4 +86,6 @@ mod tests {
             }
         }
     }
+
+    
 }
