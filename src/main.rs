@@ -2,14 +2,11 @@ pub mod upvotes;
 pub mod urlparser;
 
 use actix_web::{get, web, App, HttpServer, Responder, post};
-use serde::Deserialize;
 
-// use crate::upvotes::VoteEvent;
-
-// #[post("/vote")]
-async fn echo(vote_event: web::Json<upvotes::VoteEvent>) -> Result<String, String> {
-    // Ok(format!("Welcome {}!", vote_event.urlId))
-    Ok(format!("Hello !!!"))
+#[post("/vote")]
+async fn echo(vote_event: web::Json<upvotes::VoteEvent>) -> impl Responder {
+    let x = &vote_event.url_id;
+    format!("Hello {x}!!!")
 }
 
 #[get("/hello/{name}")]
@@ -30,6 +27,7 @@ async fn main() -> std::io::Result<()> {
             .route("/hello", web::get().to(|| async { "Hello World!" }))
             .service(greet)
             .service(greet2)
+            .service(echo)
 
     })
     .bind(("127.0.0.1", 8080))?
