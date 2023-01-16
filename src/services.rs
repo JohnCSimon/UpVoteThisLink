@@ -4,32 +4,24 @@ use actix_web::{
     web::{Data, Json, Path},
     HttpResponse, Responder,
 };
-
 use serde::{Deserialize, Serialize};
 use sqlx::{self, FromRow};
 
-#[derive(Deserialize, Serialize, Debug, FromRow)]
+#[derive(Deserialize, Serialize, FromRow, Clone)]
 pub struct VoteEvent {
     pub url_id: String,
     pub user_id: String,
-    // pub event: Event,
-}
-
-#[derive(Deserialize, Serialize, Debug)]
-pub enum Event {
-    UpVote,
-    DownVote,
+    pub votetype: i32
 }
 
 #[post("/vote")]
-async fn do_vote_event(state: Data<AppState>, body: Json<VoteEvent>) -> impl Responder {
-    // let x = &vote_event.url_id;
-    // format!("Hello {x}!!!")
+async fn do_vote_event(state: Data<AppState>,  body: Json<VoteEvent>) -> impl Responder{
     match sqlx::query_as::<_, VoteEvent>(
-        "INSERT INTO votables (url_id, user_id) VALUES ($1, $2) RETURNING url_id, user_id",
+        "INSERT INTO votables (url_id, user_id, votetype, votedate) VALUES ($1, $2, $3, now()) RETURNING url_id, user_id, votetype, votedate"
     )
     .bind(body.url_id.to_string())
     .bind(body.user_id.to_string())
+    .bind(body.votetype)
     .fetch_one(&state.db)
     .await
     {
