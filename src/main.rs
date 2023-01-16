@@ -7,8 +7,6 @@ use dotenv::dotenv;
 mod services;
 use services::{do_vote_event};
 
-
-
 pub struct AppState {
     db: Pool<Postgres>,
 }
