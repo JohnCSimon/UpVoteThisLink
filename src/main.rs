@@ -1,11 +1,10 @@
 pub mod common;
 pub mod urlparser;
 
-use actix_web::{web::Data, App, HttpServer};
-use sqlx::{postgres::PgPoolOptions, Pool, Postgres};
+mod endpoints;
+use actix_web::{App, HttpServer, web::Data};
 use dotenv::dotenv;
-mod services;
-use services::{do_vote_event};
+use sqlx::{Pool, Postgres, postgres::PgPoolOptions};
 
 pub struct AppState {
     db: Pool<Postgres>,
@@ -20,11 +19,10 @@ async fn main() -> std::io::Result<()> {
         .connect(&database_url)
         .await
         .expect("Error building a connection pool");
-
     HttpServer::new(move || {
         App::new()
             .app_data(Data::new(AppState { db: pool.clone() }))
-            .service(do_vote_event)
+            .service(endpoints::voting::do_vote_event)
     })
     .bind(("127.0.0.1", 8086))?
     .run()

@@ -1,8 +1,7 @@
 use crate::AppState;
 use actix_web::{
-    get, post,
+    HttpResponse, Responder, get, post,
     web::{Data, Json, Path},
-    HttpResponse, Responder,
 };
 use serde::{Deserialize, Serialize};
 use sqlx::{self, FromRow};
@@ -11,11 +10,11 @@ use sqlx::{self, FromRow};
 pub struct VoteEvent {
     pub url_id: String,
     pub user_id: String,
-    pub votetype: i32
+    pub votetype: i32,
 }
 
 #[post("/vote")]
-async fn do_vote_event(state: Data<AppState>,  body: Json<VoteEvent>) -> impl Responder{
+pub async fn do_vote_event(state: Data<AppState>, body: Json<VoteEvent>) -> impl Responder {
     match sqlx::query_as::<_, VoteEvent>(
         "INSERT INTO votables (url_id, user_id, votetype, votedate) VALUES ($1, $2, $3, now()) RETURNING url_id, user_id, votetype, votedate"
     )
