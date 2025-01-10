@@ -1,7 +1,7 @@
 use crate::AppState;
 use actix_web::{
-    HttpResponse, Responder, get, post,
-    web::{Data, Json, Path},
+    HttpResponse, Responder, post,
+    web::{Data, Json},
 };
 use serde::{Deserialize, Serialize};
 use sqlx::{self, FromRow};
