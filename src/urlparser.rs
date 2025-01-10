@@ -18,7 +18,7 @@ pub fn remove_query_parameters(
     // Extract query parameters into a HashMap
     let mut query_pairs: HashMap<_, _> = url.query_pairs().into_owned().collect();
 
-    if (query_pairs.is_empty()) {
+    if query_pairs.is_empty() {
         return Ok(url.into());
     }
 
