@@ -1,7 +1,5 @@
 use std::collections::HashMap;
 
-use base64::alphabet::STANDARD;
-use sha2::Sha256;
 use url::{Url, form_urlencoded};
 
 pub fn parse_url_local(url_string: &str) -> Result<Url, String> {

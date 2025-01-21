@@ -10,6 +10,8 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use sqlx::{self, FromRow};
 
+static URL_HASH_LENGTH: usize = 10;
+
 #[derive(Deserialize)]
 pub struct UrlShortenRequest {
     pub url: String,
@@ -31,6 +33,8 @@ pub struct UrlShortenDTO {
 // 	"urlkeys": ["v1"]
 // }'
 
+// static integer
+
 fn generate_truncated_hash(url: &str) -> String {
     // Create a Sha256 hasher instance
     let mut hasher = Sha256::new();
@@ -40,7 +44,8 @@ fn generate_truncated_hash(url: &str) -> String {
     let hash = hasher.finalize();
 
     // encode hash as a base64 encoded string slice
-    URL_SAFE_NO_PAD.encode(hash)
+    let result = URL_SAFE_NO_PAD.encode(hash);
+    result[..URL_HASH_LENGTH].to_string()
 }
 
 #[post("/shortenurl")]
@@ -139,11 +144,10 @@ mod tests {
         let result = crate::endpoints::urlshortener::generate_truncated_hash(url);
 
         // Ensure the hash is truncated to the expected length (modify this if truncation is added)
-        // Note: Current implementation doesn't truncate, so check the full hash length.
         assert_eq!(
             result.len(),
-            43,
-            "Expected hash length is 43 for full SHA256 encoded in URL-safe Base64"
+            crate::endpoints::urlshortener::URL_HASH_LENGTH,
+            "Expected hash length is 10 for full SHA256 encoded in URL-safe Base64"
         );
     }
 }
