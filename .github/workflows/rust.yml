@@ -1,10 +1,6 @@
 name: Rust
 
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+on: push
 
 env:
   CARGO_TERM_COLOR: always
@@ -20,6 +16,6 @@ jobs:
         toolchain: beta
         override: true
     - name: Build
-      run: cargo build --verbose
+      run: cargo build -q
     - name: Run tests
-      run: cargo test --verbose
+      run: cargo test

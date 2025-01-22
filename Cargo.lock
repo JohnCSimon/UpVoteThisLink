@@ -1996,6 +1996,7 @@ name = "up_vote_this_link"
 version = "0.1.0"
 dependencies = [
  "actix-web",
+ "base64 0.22.1",
  "dotenv",
  "runtime",
  "serde",
