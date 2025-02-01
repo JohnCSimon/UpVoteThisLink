@@ -1,7 +1,7 @@
 use crate::{AppState, urlparser::remove_query_parameters};
 use actix_web::{
-    HttpResponse, Responder, post,
-    web::{Data, Json},
+    HttpResponse, Responder, get, post,
+    web::{self, Data, Json},
 };
 use base64;
 use base64::Engine;
@@ -48,18 +48,38 @@ fn generate_truncated_hash(url: &str) -> String {
     result[..URL_HASH_LENGTH].to_string()
 }
 
-#[post("/shortenurl")]
+#[get("/shorturl/{path}")]
+pub async fn get_url_shortening(state: Data<AppState>, path: web::Path<String>) -> impl Responder {
+    let row: Result<Option<UrlShortenDTO>, sqlx::Error> = sqlx::query_as::<_, UrlShortenDTO>(
+        "SELECT url, hash as urlhash FROM hashedurls WHERE hash = $1",
+    )
+    .bind(path.into_inner())
+    .fetch_optional(&state.db)
+    .await;
+
+    match row {
+        Ok(Some(hashed_url)) => HttpResponse::Ok().json(hashed_url.url),
+        Ok(None) => HttpResponse::NotFound().body("URL not found"),
+        Err(error) => HttpResponse::InternalServerError().json(error.to_string()),
+    }
+}
+
+#[post("/shorturl")]
 pub async fn do_url_shortening(
     state: Data<AppState>,
     body: Json<UrlShortenRequest>,
 ) -> impl Responder {
+    if url::Url::parse(&body.url).is_err() {
+        return HttpResponse::BadRequest().body("Invalid URL format");
+    }
+
     let urlkeys: Vec<&str> = body.urlkeys.iter().map(|s| s.as_str()).collect(); // no good!
     let url = remove_query_parameters(&body.url, &urlkeys).unwrap();
 
     let hash_hex = generate_truncated_hash(&url);
 
     let insert_row: Result<UrlShortenDTO, sqlx::Error> = sqlx::query_as::<_, UrlShortenDTO>(
-        "INSERT INTO hashedurls (url, hash) VALUES ($1, $2, now()) RETURNING hash",
+        "INSERT INTO hashedurls (url, hash) VALUES ($1, $2) RETURNING hash",
     )
     .bind(url.to_string())
     .bind(hash_hex.to_string())
