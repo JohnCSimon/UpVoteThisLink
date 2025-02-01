@@ -1,18 +1,19 @@
 # docker-compose -f stack.yml up
 # https://crates.io/crates/sqlx
-# Use postgres/example user/password credentials\
-version: '3.1'
 
 services:
-
   db:
-    image: postgres
+    image: postgres:latest
+    container_name: my_postgres
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: example
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
     ports:
-      - 5432:5432
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Runs at first startup
   adminer:
     image: adminer
     restart: always
