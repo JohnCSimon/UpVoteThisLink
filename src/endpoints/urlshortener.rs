@@ -50,10 +50,15 @@ fn generate_truncated_hash(url: &str) -> String {
 
 #[get("/shorturl/{path}")]
 pub async fn get_url_shortening(state: Data<AppState>, path: web::Path<String>) -> impl Responder {
+    let shortkey = path.into_inner();
+    if shortkey.len() > 10 {
+        return HttpResponse::NotFound().body("URL not found");
+    }
+
     let row: Result<Option<UrlShortenDTO>, sqlx::Error> = sqlx::query_as::<_, UrlShortenDTO>(
         "SELECT url, hash as urlhash FROM hashedurls WHERE hash = $1",
     )
-    .bind(path.into_inner())
+    .bind(shortkey)
     .fetch_optional(&state.db)
     .await;
 
