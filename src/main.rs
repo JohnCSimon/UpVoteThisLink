@@ -27,6 +27,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(Data::new(AppState { db: pool.clone() }))
             .service(endpoints::utilities::liveness)
+            .service(endpoints::urlshortener::get_url_shortening)
             .service(endpoints::urlshortener::do_url_shortening)
             .service(endpoints::voting::do_vote_event)
     })
