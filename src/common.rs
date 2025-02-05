@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-
 #[derive(Deserialize, Serialize, Debug)]
 pub struct VoteEvent {
     pub url_id: String,
@@ -13,43 +12,6 @@ pub enum Event {
     UpVote,
     DownVote,
 }
-
-// enum UpvoteError {
-//     InvalidUrlId,
-//     InvalidUserId,
-//     DuplicateUpvote,
-// }
-
-// enum Emotes {
-//     Smile,
-//     Frown,
-//     Meh,
-//     Wink,
-//     Tongue,
-//     Grin,
-//     Sad,
-//     Cry,
-//     Surprise,
-//     Angry,
-//     Confused,
-//     Cool,
-//     Heart,
-//     Diamond,
-//     Star,
-//     Bomb,
-//     Skull,
-//     Coffee,
-//     Ghost,
-//     Soccer,
-//     Diamond2,
-//     Anchor,
-//     Soccer2,
-//     Bomb2,
-//     Skull2,
-//     Coffee2,
-//     Ghost2,
-//     Diamond3,
-// }
 
 #[cfg(test)]
 mod tests {
@@ -86,6 +48,4 @@ mod tests {
             }
         }
     }
-
-    
 }

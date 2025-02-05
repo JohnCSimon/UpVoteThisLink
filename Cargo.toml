@@ -1,10 +1,15 @@
 [package]
-name = "up_vote_this_link"
+name = "url_shortener"
 version = "0.1.0"
 authors = ["john"]
 edition = "2024"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+path = "src/main.rs"
+name = "url_shortener"
 
 [dependencies]
 actix-web = "4"
@@ -16,3 +21,6 @@ sqlx = { version = "0", features = ["runtime-actix-native-tls", "postgres"] }
 runtime = "0.0.0"
 sha2 = "0.10.8"
 base64 = "0.22.1"
+
+[dev-dependencies]
+reqwest = "0.12.12"
