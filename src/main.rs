@@ -2,6 +2,8 @@ pub mod common;
 pub mod urlparser;
 
 mod endpoints;
+use actix_files as fs;
+
 use actix_web::{App, HttpServer, web::Data};
 use dotenv::dotenv;
 use sqlx::{Pool, Postgres, postgres::PgPoolOptions};
@@ -26,6 +28,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(Data::new(AppState { db: pool.clone() }))
+            .service(fs::Files::new("/", "./static").index_file("index.html"))
             .service(endpoints::utilities::liveness)
             .service(endpoints::urlshortener::get_url_shortening)
             .service(endpoints::urlshortener::do_url_shortening)

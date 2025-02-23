@@ -3,13 +3,12 @@
 
 services:
   db:
-    image: postgres:latest
+    image: postgres:17-alpine
     container_name: my_postgres
     restart: always
     environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydatabase
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: examplepass
     ports:
       - "5432:5432"
     volumes:
